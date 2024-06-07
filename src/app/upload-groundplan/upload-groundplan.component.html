@@ -1,0 +1,21 @@
+<!--<div class="upload-container">
+  <input type="file" id="file" (change)="onFileSelected($event)" hidden />
+  <label for="file" class="upload-label">
+    Drag your file here or click to upload
+  </label>
+</div>-->
+<!-- The overlay container -->
+<div class="upload-overlay" *ngIf="isOverlayVisible">
+  <div class="upload-container">
+    <div class="close-overlay" (click)="closeOverlay()" aria-label="Close">&times;</div>
+    <div class="drop-zone" (drop)="onDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)">
+      Dateien hierher ziehen und ablegen oder klicken, um hochzuladen
+      <input type="file" (change)="onFileSelected($event)" hidden #fileInput>
+    </div>
+    <button (click)="fileInput.click()" class="upload-button">Dateien durchsuchen</button>
+    <div *ngIf="uploadedImage">
+      <img [src]="uploadedImage" class="uploaded-image-preview" />
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,169 @@
+<div class="page">
+  <div class="sidebar">
+    <div class="sidebar-element">
+      <p class="sidebar-element-title">Grundriss</p>
+      <div class="sidebar-element-btn-container">
+        <button *ngFor="let button of grundrissButtons" class="btn btn-outline-primary custom-button mb-2"
+                (click)="startDrawingGrundriss()">
+          <img [src]="button.image" class="btn-icon" alt=""/>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-element">
+      <p class="sidebar-element-title">Räume</p>
+      <div class="sidebar-element-btn-container">
+        <button *ngFor="let button of raeumeButtons" [class.active]="isActiveCategory('Raeume', button.id)"
+                class="btn btn-outline-primary custom-button mb-2"
+                (click)="toggleActiveCategory('Raeume', button.id)">
+          <img [src]="button.image" class="btn-icon" alt=""/>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-element">
+      <p class="sidebar-element-title">Shared Desk</p>
+      <div class="sidebar-element-btn-container">
+        <button *ngFor="let button of sharedDeskButtons"
+                [class.active]="isActiveCategory('SharedDesk', button.id)"
+                class="btn btn-outline-primary custom-button mb-2"
+                (click)="toggleActiveCategory('SharedDesk', button.id)">
+          <img [src]="button.image" class="btn-icon" alt=""/>
+        </button>
+      </div>
+    </div>
+    <div class="sidebar-element">
+      <p class="sidebar-element-title">Stühle</p>
+      <div class="sidebar-element-btn-container">
+        <button *ngFor="let button of stuehleButtons" [class.active]="isActiveCategory('Stuehle', button.id)"
+                class="btn btn-outline-primary custom-button mb-2"
+                (click)="toggleActiveCategory('Stuehle', button.id)">
+          <img [src]="button.image" class="btn-icon" alt=""/>
+        </button>
+      </div>
+    </div>
+
+    <div class="sidebar-element">
+      <div class="sidebar-element-btn-container">
+        <button class="largeIcon" mat-raised-button matTooltip="Hilfe" pButton type="button"
+                (click)="toggleTips()">
+          <i class="pi pi-question-circle"></i>
+        </button>
+      </div>
+    </div>
+
+
+    <img src="assets/img/plotit_logo.svg" alt="Logo" class="logo"/>
+
+    <button pButton id="darkMode" type="button" (click)="toggleDarkTheme()"
+            matTooltip="{{ darkMode ? 'zu Hellmodus' : 'zu Dunkelmodus'}}">
+      <i [class]="darkMode ? 'pi pi-sun'  : 'pi pi-moon'"></i>
+    </button>
+
+    <button pButton [disabled]="isDrawing$ | async" id="grid" type="button" (click)="toggleGrid()"
+            matTooltip="{{ grid ? 'Rasterhilfe entfernen' : 'Rasterhilfe'}}">
+      <i [class]="grid ? 'pi pi-table' : 'pi pi-table'"></i>
+    </button>
+
+
+    <button pButton id="roomplanConverter" (click)="navigateToUpload()" type="button"
+            matTooltip="Bilddatei konvertieren">
+      <i class="pi pi-upload"></i>
+    </button>
+
+    <img *ngIf="isPolygonPresent()"
+         [src]="lockGroundplan ? 'assets/img/planLock.png' : 'assets/img/planUnlock.png'"
+         (click)="toggleGroundplanLock()"
+         [matTooltip]="lockGroundplan ? 'Grundriss(e) lösen' : 'Grundriss(e) fixieren'"
+         class="clickable-imagePlan"
+         alt="Toggle Lock">
+
+    <img *ngIf="isRoomPresent()"
+         [src]="lockRoom ? 'assets/img/roomLock.png' : 'assets/img/roomUnlock.png'"
+         (click)="toggleRoomLock()"
+         [matTooltip]="lockRoom ? 'Raum bzw. Räume lösen' : 'Raum bzw. Räume fixieren'"
+         class="clickable-imageRoom"
+         alt="Toggle Lock">
+
+    <button *ngIf="isPointPresent()"
+            pButton id="scaleRooms" (click)="sendRoomPoints()" type="button"
+            matTooltip="Räume anpassen">
+      <i class="pi pi-arrows-h"></i>
+    </button>
+
+    <button *ngIf="polygonGenerated"
+            pButton id="drawCorridor" (click)="startDrawingFlur()" type="button"
+            matTooltip="Flur markieren">
+      <i class="pi pi-equals"></i>
+    </button>
+
+    <button *ngIf="polygonGenerated"
+            [class.active]="drawingMode !== 'none'"
+            pButton
+            id="drawPointsAndLines"
+            (click)="drawPointsAndLines()"
+            type="button"
+            matTooltip="Toggle Drawing Mode">
+      <i class="pi pi-pencil"></i>
+    </button>
+
+    <!--<button
+            pButton id="planImage" type="button" (click)="toggleImageVisibility()"
+            matTooltip="{{ hidenImage ? 'Bild hinzufügen' : 'Bild ausblenden'}}">
+        <i [class]="hidenImage ? 'pi pi-sun'  : 'pi pi-moon'"></i>
+    </button>-->
+
+  </div>
+
+  <div class="canvas-container">
+    <canvas id="myCanvas" class="classCanvas"></canvas>
+  </div>
+
+  <div class="tipWindow" id="tipWindow">
+    <div class="tipWindow-inner">
+      <h1>Tipps und Tricks</h1>
+      <h2>Grundriss zeichnen</h2>
+      <p>
+        Um einen Grundriss vom Gebäude/Stockwerk zu zeichnen, muss zuerst der
+        Grundriss-Modus aktivert werden, was mit einem Klick auf den seitlich
+        platzierten Grundriss erfolgt. Anschließend können, mittels einzelnen Klicks
+        auf die Leinwand, die Ecken des Grundrisses festgelegt werden. Um den Grundriss
+        zu schließen und den Grundriss-Modus wieder zu verlassen, muss einfach der zuerst
+        gesetzte Eckpunkt wieder angeklickt werden. Misslingt das Platzieren der Grundrissecken,
+        kann mit einem zweiten Klick auf den seitlich platzierten Grundriss der Vorgang beendet werden.
+      </p>
+      <h2>Objekte hinzufügen</h2>
+      <p>
+        Die Objekte können mittels Anklicken der seitlich platzierten Objekte ausgewählt
+        werden. Mit einem weiteren Klick auf die Leinwand, kann schließlich das
+        Objekt auf eine gewünschte Position platziert werden.
+      </p>
+      <h2>Mehrere Elemente auswählen</h2>
+      <p>
+        Um mehrere beliebige Elemente mittels Anklicken selektieren zu können, ist das Halten
+        der Shift-Taste vonnöten. Eine weitere Variante bietet die Maustaste gedrückt zu halten und den Cursor
+        über die Elemente zu ziehen. Die ausgewählten Elemente können dann gemeinsam bearbeitet und mittels
+        <i>Drag and Drop</i> verschoben werden.
+      </p>
+      <h2><i>Hinweis</i></h2>
+      <p>
+        Die zur Auswahl stehenden Räume beinhalten bereits Tische und Stühle. Da es sich, wie bei den
+        Shared Desks, um einzeln zusammengefügte Elemente handelt, muss beim ganzheitlichen Verschieben
+        die Mehrfachselektion berücksichtigt werden. Um mehrere Objekte innerhalb eines Grundrisses auszuwählen,
+        muss die Selektions-Variante mit der Shift-Taste angewandt werden.
+
+      </p>
+      <p-button label="Alles klar!" styleClass="p-button-primary custom-button" (click)="toggleTips()"></p-button>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="isActionButtonVisible()" class="btn-container">
+  <p-button class="largeIcon" mat-raised-button matTooltip="Kopieren" icon="pi pi-copy" (click)="clone()">
+  </p-button>
+  <p-button class="largeIcon" mat-raised-button matTooltip="Löschen" styleClass="p-button-danger" icon="pi pi-trash"
+            (click)="remove()">
+  </p-button>
+</div>
+
+

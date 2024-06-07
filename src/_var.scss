@@ -1,0 +1,33 @@
+body {
+  --backgroundColor: white;
+  --backgroundColorTipsWindows: white;
+
+  --borderColor: black;
+  --colorText: black;
+
+  --btnBackgroundColor: white;
+  --btnIconFilter: invert(0);
+
+  --sidebarElementTitleColor: black;
+
+  --tipsWindowOpacity: 0;
+  --tipsWindowZIndex: -1;
+}
+
+body.dark-theme {
+  --backgroundColor: rgb(50, 50, 50);
+
+  --borderColor: white;
+  --colorText: white;
+
+  --btnBackgroundColor: rgb(50, 50, 50);
+  --btnIconFilter: invert(1);
+
+  --sidebarElementTitleColor: white;
+  --backgroundColorTipsWindows: rgb(93, 93, 93);
+}
+
+body.tipsOpen {
+  --tipsWindowOpacity: 1;
+  --tipsWindowZIndex: 999;
+}

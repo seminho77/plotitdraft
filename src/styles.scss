@@ -1,0 +1,316 @@
+@import "./var";
+
+body {
+  background-color: var(--backgroundColor);
+}
+
+.page {
+  display: flex;
+  flex-direction: row;
+
+  column-gap: 15px;
+}
+
+.sidebar {
+  position: relative;
+  width: fit-content;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+  padding: 5px;
+  margin-top: 160px;
+}
+
+.sidebar-element {
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  padding: 5px;
+
+  align-items: center;
+}
+
+.sidebar-element-title {
+  font-size: medium;
+  font-weight: 700;
+
+  margin: 5px;
+  padding: 4px;
+
+  color: var(--sidebarElementTitleColor);
+}
+
+.sidebar-element-btn-container {
+  display: flex;
+  flex-direction: row;
+
+  margin: 5px;
+
+  column-gap: 10px;
+}
+
+.btn-container {
+  display: flex;
+  flex-direction: row;
+  margin: 45px;
+  column-gap: 5px;
+  margin-top: -75px;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: var(--btnBackgroundColor);
+
+  border-color: var(--borderColor);
+  border-width: 2px;
+  border-radius: 10px;
+  border: hidden;
+
+  cursor: pointer;
+}
+
+.btn-icon {
+  max-height: 4rem;
+  filter: var(--btnIconFilter);
+}
+
+#roomplanConverter {
+  position: absolute;
+  bottom: 635px;
+  left: 1745px;
+  //z-index: -2;
+
+}
+
+#darkMode {
+  position: absolute;
+  bottom: 635px;
+  left: 1680px;
+  z-index: 2;
+}
+
+#planImage {
+  position: absolute;
+  bottom: 635px;
+  left: 55px;
+  z-index:2;
+}
+
+#grid {
+  position: absolute;
+  bottom: 635px;
+  left: 1615px;
+  z-index: 2;
+}
+
+
+
+.clickable-imagePlan {
+  cursor: pointer;
+  position: absolute;
+  bottom: 635px;
+  left: 1550px;
+  z-index: 2;
+}
+
+.clickable-imageRoom {
+  cursor: pointer;
+  position: absolute;
+  bottom: 635px;
+  left: 1485px;
+  z-index: 2;
+}
+
+#drawPointsAndLines{
+  cursor: pointer;
+  position: absolute;
+  bottom: 635px;
+  left: 1420px;
+  z-index: 2;
+}
+
+#scaleRooms {
+  cursor: pointer;
+  position: absolute;
+  bottom: 635px;
+  left: 1355px;
+  z-index: 2;
+}
+
+#drawCorridor {
+  cursor: pointer;
+  position: absolute;
+  bottom: 635px;
+  left: 1290px;
+  z-index: 2;
+}
+
+
+
+
+
+.logo {
+  position: absolute;
+  bottom: 635px;
+  left: 900px;
+  height: 40px;
+  filter: var(--btnIconFilter);
+}
+
+.tipWindow {
+  background-color: var(--backgroundColor);
+  opacity: var(--tipsWindowOpacity);
+  color: var(--colorText);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: all 0.3s ease-in-out;
+  z-index: var(--tipsWindowZIndex);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tipWindow-inner {
+  background-color: var(--backgroundColorTipsWindows);
+  border-radius: 5px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+  padding: 15px 25px;
+  text-align: left;
+  width: 70%;
+}
+
+.tipWindow-inner h1 {
+  margin: 0;
+}
+
+.tipWindow-inner h2 {
+  margin-top: 15px;
+  margin-bottom: 5px;
+}
+
+.tipWindow-inner p {
+  line-height: 24px;
+  margin-top: 0;
+}
+
+.btnTipsWindow {
+  font-size: medium;
+  font-weight: 700;
+
+  margin: 5px;
+  padding: 4px;
+
+  border-color: var(--borderColor);
+  border-style: solid;
+  border-radius: 5px;
+  border-width: 2px;
+
+  color: var(--sidebarElementTitleColor);
+}
+
+#myCanvas {
+  border-color: var(--borderColor);
+  border-style: solid;
+  border-width: 2px;
+  border-radius: 5px;
+}
+
+.canvas-container {
+  transform: translateY(40px);
+
+}
+
+.largeIcon{
+
+  font-size: 24px;
+}
+
+.redIcon {
+  color: red;
+}
+
+upload-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Take up full viewport height
+
+  .upload-button {
+    margin: 20px;
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    &:hover {
+      background-color: #0056b3;
+    }
+  }
+
+  .uploaded-image-preview {
+    max-width: 100%;
+    height: auto;
+  }
+}
+
+.upload-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.upload-container {
+  position: relative;
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.drop-zone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.upload-button {
+  margin: 0 auto;
+  display: block;
+  cursor: pointer;
+}
+
+.uploaded-image-preview {
+  max-width: 100%;
+  height: auto;
+  margin-top: 20px;
+}
+
+.close-overlay {
+  position: absolute;
+  top:-2px;
+  right: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #000; // Choose a color that matches your design
+}
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
